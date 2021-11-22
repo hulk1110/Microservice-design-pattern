@@ -21,6 +21,7 @@ public class UserService {
     @Autowired
     private RestTemplate restTemplate;
     Logger log = Logger.getLogger(UserService.class.getName());
+
     public User saveUser(User user) {
         log.info("Inside saveUser of UserService");
         return userRepository.save(user);
@@ -30,14 +31,14 @@ public class UserService {
         log.info("Inside getUserWithDepartment of UserService");
         ResponseTemplateVO vo = new ResponseTemplateVO();
         User user = userRepository.findByUserId(userId);
-
+//benifit of usinf naming server no need of using port no.
         Department department =
-                restTemplate.getForObject("http://localhost:9001/departments/" + user.getDepartmentId()
-                        ,Department.class);
+                restTemplate.getForObject("http://DEPARTMENT-SERVICE/departments/" + user.getDepartmentId()
+                        , Department.class);
 
         vo.setUser(user);
         vo.setDepartment(department);
 
-        return  vo;
+        return vo;
     }
 }
